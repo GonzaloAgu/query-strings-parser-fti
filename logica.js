@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const resultadoDiv = document.getElementById("resultado");
 
   // La ER que va a extraer la clave y el valor
-  const regexExtractor = /([a-zA-Z]\w*)=([^&]*)/g;
+  const regexExtractor = /([a-zA-Z][^&]*)=([^&]*)/g;
 
   // --- Manejador del Formulario ---
   form.addEventListener("submit", (event) => {
@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
           parseado[clave] = [parseado[clave], valor];
         }
       }
-      
+
       //Para mostrar el resultado
       resultadoDiv.innerHTML = "<pre></pre>";
       resultadoDiv.querySelector("pre").textContent = JSON.stringify(
