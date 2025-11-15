@@ -4,10 +4,10 @@
 function validarCadena(cadena) {
 
   //Inicia si o si con un caracter del alfabeto, luego cualquier verdura 🥦
-  const patronClave = `[a-zA-Z][^&]*`;
+  const patronClave = `[a-zA-Z][^ &]*`;
 
   //cualquier verdura excepto los &
-  const patronValor = "[^&]*";
+  const patronValor = "[^ &]*";
 
   //Todo junto 
   const patronClaveValor = `${patronClave}=${patronValor}`;
