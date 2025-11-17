@@ -2,26 +2,26 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- Configuracion Inicial ---
   const form = document.getElementById("form");
   const cadenaInput = document.getElementById("cadenaInput");
-  const resultadoDiv = document.getElementById("resultado");
 
-  // La ER que va a extraer la clave y el valor
-  const regexExtractor = /([a-zA-Z][^=&]*)=([^&]*)/g;
-
+  
   // --- Manejador del Formulario ---
   form.addEventListener("submit", (event) => {
     event.preventDefault(); // Evita que la pagina se recargue
     const cadena = cadenaInput.value;
-
+    
     // Antes de intentar extraer nada, usamos una funcion de validacion
     if (validarCadena(cadena)) {
       const parseado = {}; // El objeto final donde guardaremos los resultados
-
-      //Esto nos devuelve un "iterador" con todas las coincidencias que encontro la RegEx en la cadena.
+      
+      // La ER que va a extraer la clave y el valor
+      const regexExtractor = /([a-zA-Z][^=&]*)=([^&]*)/g;
+      // Esto nos devuelve un "iterador" con todas las coincidencias que encontro la RegEx en la cadena.
       const matches = cadena.matchAll(regexExtractor);
 
-      //Procesamos los pares clave y valor
+      // Procesamos los pares clave y valor
       for (const match of matches) {
-        // Asignamos el GRUPO 1  (clave) y GRUPO 2 y lo decodificamos
+
+        // Extraemos la clave y valor y reemplazamos codigos de caracteres especiales
         let clave = decodificar(match[1]);
         let valor = decodificar(match[2]);
 
@@ -41,18 +41,28 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
 
-      //Para mostrar el resultado
+      imprimir(parseado);
+    } else {
+      imprimir("La cadena " + cadena + " no es válida.");
+    }
+  });
+
+  function imprimir(contenido) {
+    const resultadoDiv = document.getElementById("resultado");
+  
+    if (typeof contenido === "string") {
+      resultadoDiv.innerHTML = "<pre></pre>";
+      resultadoDiv.querySelector("pre").textContent = contenido;
+    } else {
       resultadoDiv.innerHTML = "<pre></pre>";
       resultadoDiv.querySelector("pre").textContent = JSON.stringify(
-        parseado,
+        contenido,
         null,
         2
       );
-    } else {
-      // Si la validacion inicial falla, mostramos un error
-      resultadoDiv.innerHTML = "<pre></pre>";
-      resultadoDiv.querySelector("pre").textContent =
-        "La cadena " + cadena + " no es válida.";
     }
-  });
+  }
+
 });
+
+
